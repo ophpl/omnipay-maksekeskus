@@ -1,0 +1,59 @@
+{
+  "name": "ophpl/omnipay-maksekeskus",
+  "type": "library",
+  "description": "Maksekeskus gateway for Omnipay payment processing library",
+  "keywords": [
+    "maksekeskus",
+    "gateway",
+    "merchant",
+    "omnipay",
+    "pay",
+    "payment",
+    "purchase"
+  ],
+  "homepage": "https://github.com/ophpl/omnipay-maksekeskus",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Stanislav Prokopov",
+      "email": "stanislav.prokopov@gmail.com"
+    }
+  ],
+  "config": {
+    "sort-packages": true,
+    "optimize-autoloader": true,
+    "platform": {
+      "php": "8.0.2"
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "Omnipay\\Maksekeskus\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Omnipay\\Maksekeskus\\Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "omnipay/common": "^3.2",
+    "maksekeskus/maksekeskus-php": "^1.4.3"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^8.5|^9",
+    "omnipay/tests": "^4",
+    "friendsofphp/php-cs-fixer": "^v3.0"
+  },
+  "scripts": {
+    "test": [
+      "@php -d date.timezone=UTC vendor/bin/phpunit -c phpunit.xml.dist"
+    ],
+    "lint": [
+      "vendor/bin/php-cs-fixer fix src --ansi --no-interaction --dry-run --diff --verbose"
+    ],
+    "fix": [
+      "vendor/bin/php-cs-fixer fix src"
+    ]
+  }
+}
