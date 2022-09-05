@@ -67,7 +67,7 @@ class PurchaseRequest extends AbstractRequest
         try {
             $client = new Maksekeskus($this->getShopId(), $this->getKeyPublishable(), $this->getKeySecret(), $this->getTestMode());
             $response = $client->createTransaction($data);
-            return $this->response = new PurchaseResponse($this, $response);
+            return $this->response = new PurchaseResponse($this, $response, $this->getPaymentMethod());
         } catch (\Throwable $e) {
             throw new InvalidRequestException('Failed to request purchase: ' . $e->getMessage(), 0, $e);
         }
