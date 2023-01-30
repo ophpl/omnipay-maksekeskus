@@ -67,6 +67,8 @@ class PurchaseRequest extends AbstractRequest
         try {
             $client = new Maksekeskus($this->getShopId(), $this->getKeyPublishable(), $this->getKeySecret(), $this->getTestMode());
             $response = $client->createTransaction($data);
+            // the client is returning stdClass, convert to array
+            $response = json_decode(json_encode($response), true);
             return $this->response = new PurchaseResponse($this, $response, $this->getPaymentMethod());
         } catch (\Throwable $e) {
             throw new InvalidRequestException('Failed to request purchase: ' . $e->getMessage(), 0, $e);
