@@ -10,6 +10,26 @@ use Omnipay\Common\Message\ResponseInterface;
 class AcceptNotification extends AbstractRequest implements NotificationInterface
 {
 
+    protected $data;
+
+    public function initialize(array $parameters = array())
+    {
+        parent::initialize($parameters);
+
+        $this->data = [
+            'json' => $this->httpRequest->get('json'),
+            'mac' => $this->httpRequest->get('mac'),
+        ];
+
+        $client = new Maksekeskus($this->getShopId(), $this->getKeyPublishable(), $this->getKeySecret(), $this->getTestMode());
+
+        if (!$client->verifyMac($this->data)) {
+            throw new InvalidRequestException('invalid signature');
+        }
+
+        $this->response = $client->extractRequestData($this->data, false);
+    }
+
     /**
      * Get the raw data array for this message.
      * The raw data is from the JSON payload.
@@ -18,20 +38,7 @@ class AcceptNotification extends AbstractRequest implements NotificationInterfac
      */
     public function getData()
     {
-        $data = [
-            'json' => $this->httpRequest->get('json'),
-            'mac' => $this->httpRequest->get('mac'),
-        ];
-
-        $client = new Maksekeskus($this->getShopId(), $this->getKeyPublishable(), $this->getKeySecret(), $this->getTestMode());
-
-        if (!$client->verifyMac($data)) {
-            throw new InvalidRequestException('invalid signature');
-        }
-
-        $this->response = $client->extractRequestData($data, false);
-
-        return $data;
+        return $this->data;
     }
 
     /**
