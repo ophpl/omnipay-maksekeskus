@@ -4,6 +4,7 @@ namespace Omnipay\Maksekeskus\Message;
 
 use Maksekeskus\Maksekeskus;
 use Omnipay\Common\Exception\InvalidRequestException;
+use Omnipay\Common\Exception\RuntimeException;
 use Omnipay\Common\Message\NotificationInterface;
 use Omnipay\Common\Message\ResponseInterface;
 
@@ -12,6 +13,17 @@ class AcceptNotification extends AbstractRequest implements NotificationInterfac
 
     protected $data;
 
+    /**
+     * Initialize the object with parameters, and try to parse the notification payload.
+     *
+     * If any unknown parameters passed, they will be ignored.
+     * If payload was parsed correctly and signature is valid, then response will contain the parsed payload data.
+     *
+     * @param array $parameters An associative array of parameters
+     *
+     * @return $this
+     * @throws RuntimeException
+     */
     public function initialize(array $parameters = array())
     {
         parent::initialize($parameters);
@@ -23,16 +35,16 @@ class AcceptNotification extends AbstractRequest implements NotificationInterfac
 
         $client = new Maksekeskus($this->getShopId(), $this->getKeyPublishable(), $this->getKeySecret(), $this->getTestMode());
 
-        if (!$client->verifyMac($this->data)) {
-            throw new InvalidRequestException('invalid signature');
+        if ($client->verifyMac($this->data)) {
+            $this->response = $client->extractRequestData($this->data, false);
         }
 
-        $this->response = $client->extractRequestData($this->data, false);
+        return $this;
     }
 
     /**
      * Get the raw data array for this message.
-     * The raw data is from the JSON payload.
+     * The raw data is from the notification payload.
      *
      * @return mixed
      */
@@ -58,7 +70,7 @@ class AcceptNotification extends AbstractRequest implements NotificationInterfac
      */
     public function getTransactionReference()
     {
-        return $this->response['transaction'];
+        return $this->response['transaction'] ?? null;
     }
 
     /**
@@ -86,9 +98,9 @@ class AcceptNotification extends AbstractRequest implements NotificationInterfac
     /**
      * {@inheritdoc}
      */
-    public function getCode()
+    protected function getCode()
     {
-        return $this->response['status'];
+        return $this->response['status'] ?? null;
     }
 
 }
