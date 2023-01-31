@@ -29,7 +29,7 @@ class AcceptNotification extends AbstractRequest implements NotificationInterfac
             throw new InvalidRequestException('invalid signature');
         }
 
-        $data['response'] = $client->extractRequestData($data, false);
+        $this->response = $client->extractRequestData($data, false);
 
         return $data;
     }
@@ -51,7 +51,7 @@ class AcceptNotification extends AbstractRequest implements NotificationInterfac
      */
     public function getTransactionReference()
     {
-        return $this->data['response']['transaction'];
+        return $this->response['transaction'];
     }
 
     /**
@@ -79,17 +79,9 @@ class AcceptNotification extends AbstractRequest implements NotificationInterfac
     /**
      * {@inheritdoc}
      */
-    public function isSuccessful()
-    {
-        return $this->getCode() === 'COMPLETED';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getCode()
     {
-        return $this->data['response']['status'];
+        return $this->response['status'];
     }
 
 }
