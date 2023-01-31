@@ -28,15 +28,15 @@ class AcceptNotification extends AbstractRequest implements NotificationInterfac
     {
         parent::initialize($parameters);
 
-        $this->data = [
+        $request = [
             'json' => $this->httpRequest->get('json'),
             'mac' => $this->httpRequest->get('mac'),
         ];
 
         $client = new Maksekeskus($this->getShopId(), $this->getKeyPublishable(), $this->getKeySecret(), $this->getTestMode());
 
-        if ($client->verifyMac($this->data)) {
-            $this->response = $client->extractRequestData($this->data, false);
+        if ($client->verifyMac($request)) {
+            $this->data = $client->extractRequestData($request, false);
         }
 
         return $this;
@@ -70,7 +70,7 @@ class AcceptNotification extends AbstractRequest implements NotificationInterfac
      */
     public function getTransactionReference()
     {
-        return $this->response['reference'] ?? null;
+        return $this->data['reference'] ?? null;
     }
 
     /**
@@ -100,7 +100,7 @@ class AcceptNotification extends AbstractRequest implements NotificationInterfac
      */
     protected function getCode()
     {
-        return $this->response['status'] ?? null;
+        return $this->data['status'] ?? null;
     }
 
 }
