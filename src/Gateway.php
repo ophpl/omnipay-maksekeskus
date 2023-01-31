@@ -5,6 +5,7 @@ namespace Omnipay\Maksekeskus;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Message\AbstractRequest;
 use Omnipay\Maksekeskus\Message\AcceptNotification;
+use Omnipay\Maksekeskus\Message\CompletePurchaseRequest;
 use Omnipay\Maksekeskus\Message\PurchaseRequest;
 
 /**
@@ -133,6 +134,16 @@ class Gateway extends AbstractGateway
     public function purchase(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Maksekeskus\Message\PurchaseRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return AbstractRequest|CompletePurchaseRequest
+     */
+    public function completePurchase(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Maksekeskus\Message\CompletePurchaseRequest', $parameters);
     }
 
     /**
