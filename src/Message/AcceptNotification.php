@@ -70,7 +70,7 @@ class AcceptNotification extends AbstractRequest implements NotificationInterfac
      */
     public function getTransactionReference()
     {
-        return $this->response['transaction'] ?? null;
+        return $this->response['reference'] ?? null;
     }
 
     /**
