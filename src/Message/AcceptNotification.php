@@ -2,11 +2,11 @@
 
 namespace Omnipay\Maksekeskus\Message;
 
-use Maksekeskus\Maksekeskus;
-use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Exception\RuntimeException;
 use Omnipay\Common\Message\NotificationInterface;
 use Omnipay\Common\Message\ResponseInterface;
+
+use Maksekeskus\Maksekeskus;
 
 class AcceptNotification extends AbstractRequest implements NotificationInterface
 {
