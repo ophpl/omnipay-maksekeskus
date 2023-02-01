@@ -68,9 +68,17 @@ class AcceptNotification extends AbstractRequest implements NotificationInterfac
     /**
      * {@inheritdoc}
      */
-    public function getTransactionReference()
+    public function getTransactionId()
     {
         return $this->data['reference'] ?? null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTransactionReference()
+    {
+        return $this->data['transaction'] ?? null;
     }
 
     /**

@@ -35,7 +35,7 @@ class CompletePurchaseResponse extends AbstractResponse
      */
     public function getTransactionId()
     {
-        return $this->data['transaction'] ?? null;
+        return $this->data['reference'] ?? null;
     }
 
     /**
@@ -43,7 +43,7 @@ class CompletePurchaseResponse extends AbstractResponse
      */
     public function getTransactionReference()
     {
-        return $this->data['reference'] ?? null;
+        return $this->data['transaction'] ?? null;
     }
 
     /**
